@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -42,9 +43,10 @@ public class Music implements BaseEntity
 	@Setter
 	private String location;
 	
-	@Getter
+	@Getter(onMethod = @_({@XmlTransient}))
 	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
 	@JoinColumn(name = "PLAN_ID")
+	@XmlTransient
 	private Plan plan;
 	
 	@Getter

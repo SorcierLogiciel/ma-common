@@ -13,10 +13,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import lombok.Getter;
 import lombok.Setter;
 
+import org.westcoasthonorcamp.ma.common.adapter.TimestampDate;
 import org.westcoasthonorcamp.ma.common.enums.ScheduleScope;
 
 /**
@@ -24,6 +28,7 @@ import org.westcoasthonorcamp.ma.common.enums.ScheduleScope;
  * @author Joshua
  */
 @Entity
+@XmlRootElement
 public class Schedule implements BaseEntity
 {
 	
@@ -43,12 +48,12 @@ public class Schedule implements BaseEntity
 	@Setter
 	@Enumerated(EnumType.STRING)
 	private ScheduleScope scheduleScope;
-	
-	@Getter
+
+	@Getter(onMethod = @_({@XmlJavaTypeAdapter(TimestampDate.class)}))
 	@Setter
 	private Timestamp creationTime;
 	
-	@Getter
+	@Getter(onMethod = @_({@XmlJavaTypeAdapter(TimestampDate.class)}))
 	@Setter
 	private Timestamp nextEventTime;
 	
@@ -68,7 +73,7 @@ public class Schedule implements BaseEntity
 	@Setter
 	private boolean enabled = true;
 	
-	@Getter
+	@Getter(onMethod = @_({@XmlTransient}))
 	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
 	@JoinColumn(name = "MUSIC_ID")
 	private Music music;
